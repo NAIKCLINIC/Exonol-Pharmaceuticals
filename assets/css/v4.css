@@ -323,3 +323,6 @@ a.hc-chip:hover{background:#EEF4F8;transform:translateY(-2px)}
 .moa-steps li.on{color:#fff}
 .moa-steps li.on b{background:var(--green);color:#0A3533}
 @media (max-width:860px){.moa-cap{display:none}}
+/* division cards: space under the badge, boxes aligned on one baseline */
+.dv-ph{background:#fcfdfe}
+.dv-ph img{object-fit:contain;object-position:center bottom;padding:60px 12px 12px;box-sizing:border-box;width:100%;height:100%}
