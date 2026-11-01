@@ -223,6 +223,43 @@
     };
   }
 
+  /* ---------- scene: divisions overview ---------- */
+  function sceneDivisions() {
+    var k = S.k, tilt = -.1, N = 40;
+    var mols = [{ f: levo, label: 'Anti-Allergic', c: '#87C13F', p: 0 }, { f: itra, label: 'Anti-Fungal', c: '#4fb3ff', p: 2.094 }, { f: doxy, label: 'Anti-Biotic', c: '#f4c04e', p: 4.189 }];
+    function axisY(x) { return S.cy + (x - S.cx) * tilt; }
+    function tag(x, y, text, col, a) {
+      ctx.save(); ctx.globalAlpha *= a; ctx.font = '600 ' + Math.round(12.5 * Math.max(k, .9)) + 'px "Work Sans", system-ui, sans-serif';
+      var w = ctx.measureText(text).width + 22 * k, h = 24 * k, bx = x + 22 * k, by = y - h / 2;
+      ctx.beginPath(); ctx.moveTo(bx + h / 2, by); ctx.lineTo(bx + w - h / 2, by); ctx.arc(bx + w - h / 2, by + h / 2, h / 2, -1.5708, 1.5708); ctx.lineTo(bx + h / 2, by + h); ctx.arc(bx + h / 2, by + h / 2, h / 2, 1.5708, 4.7124); ctx.closePath();
+      ctx.fillStyle = 'rgba(4,22,28,.62)'; ctx.fill(); ctx.strokeStyle = col; ctx.lineWidth = 1.2; ctx.stroke();
+      ctx.fillStyle = '#fff'; ctx.textBaseline = 'middle'; ctx.fillText(text, bx + 11 * k, by + h / 2 + .5); ctx.restore();
+    }
+    function helix(t, front) {
+      var A = S.h * .2;
+      for (var i = 0; i <= N; i++) {
+        var u = i / N, x = lerp(S.x, S.x + S.w, u), y = axisY(x), a = u * 12.566 + t * .7, s = Math.sin(a), z = Math.cos(a);
+        var y1 = y + s * A, y2 = y - s * A, col = mixC([0, 113, 180], [135, 193, 63], u);
+        if (!front) { ctx.strokeStyle = 'rgba(160,210,240,.18)'; ctx.lineWidth = 1.6 * k; ctx.beginPath(); ctx.moveTo(x, y1); ctx.lineTo(x, y2); ctx.stroke(); }
+        [[y1, z], [y2, -z]].forEach(function (q) {
+          if ((q[1] >= 0) !== front) return;
+          ctx.globalAlpha = .35 + .55 * (q[1] + 1) / 2; glow(col, 10 * k);
+          circle(x, q[0], (2.6 + 1.8 * (q[1] + 1) / 2) * k, col); noGlow(); ctx.globalAlpha = 1;
+        });
+      }
+    }
+    function orbit(t, front) {
+      mols.forEach(function (m) {
+        var th = t * .42 + m.p, z = Math.sin(th);
+        if ((z >= 0) !== front) return;
+        var x = S.cx + Math.cos(th) * S.w * .4, y = axisY(x) + z * S.h * .34, sc = .85 + .45 * (z + 1) / 2, a = .45 + .55 * (z + 1) / 2;
+        m.f(x, y, k * 1.5 * sc, a, t * .3 + m.p);
+        tag(x, y, m.label, m.c, a);
+      });
+    }
+    return function (t) { orbit(t, false); helix(t, false); helix(t, true); orbit(t, true); };
+  }
+
   function build() {
     var r = cv.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
     W = Math.max(1, r.width); H = Math.max(1, r.height);
@@ -232,13 +269,13 @@
     S.cx = S.x + S.w / 2; S.cy = S.y + S.h / 2; S.k = clamp(Math.min(S.w / 560, S.h / 340), .6, 1.5) * (wide ? 1.4 : 1.05);
     var R = rng(3); dust = [];
     for (var i = 0; i < 46; i++) dust.push({ x: R() * W, y: R() * H, r: R() * 1.6 + .4, a: R() * .35 + .08, v: R() * .6 + .2, p: R() * 6 });
-    scene = kind === 'fungal' ? sceneFungal() : kind === 'bacteria' ? sceneBacteria() : sceneAllergy();
+    scene = kind === 'divisions' ? sceneDivisions() : kind === 'fungal' ? sceneFungal() : kind === 'bacteria' ? sceneBacteria() : sceneAllergy();
   }
 
   function frame(now) {
-    var t = reduce ? 10.5 : (now / 1000) % L;
+    var cont = kind === 'divisions', t = reduce ? 10.5 : cont ? now / 1000 : (now / 1000) % L;
     ctx.globalAlpha = 1; bg(t);
-    var fade = reduce ? 1 : Math.min(ph(t, 0, .7), 1 - ph(t, 13.2, 14));
+    var fade = reduce || cont ? 1 : Math.min(ph(t, 0, .7), 1 - ph(t, 13.2, 14));
     ctx.save(); ctx.globalAlpha = fade; scene(t); ctx.restore();
     var st = t < 4.5 ? 0 : t < 8.6 ? 1 : 2;
     if (st !== lastStep) { steps.forEach(function (li, i) { li.classList.toggle('on', i === st); }); lastStep = st; }
