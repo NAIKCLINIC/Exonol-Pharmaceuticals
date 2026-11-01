@@ -228,7 +228,7 @@
     W = Math.max(1, r.width); H = Math.max(1, r.height);
     cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     var wide = W > 760;
-    S = wide ? { x: W * .4, y: H * .17, w: W * .42, h: H * .58 } : { x: W * .08, y: H * .1, w: W * .84, h: H * .42 };
+    S = wide ? { x: W * .3, y: H * .14, w: W * .44, h: H * .46 } : { x: W * .08, y: H * .1, w: W * .84, h: H * .42 };
     S.cx = S.x + S.w / 2; S.cy = S.y + S.h / 2; S.k = clamp(Math.min(S.w / 560, S.h / 340), .6, 1.5) * (wide ? 1.4 : 1.05);
     var R = rng(3); dust = [];
     for (var i = 0; i < 46; i++) dust.push({ x: R() * W, y: R() * H, r: R() * 1.6 + .4, a: R() * .35 + .08, v: R() * .6 + .2, p: R() * 6 });
