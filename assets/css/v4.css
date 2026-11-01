@@ -311,3 +311,15 @@ a.hc-chip:hover{background:#EEF4F8;transform:translateY(-2px)}
 .hc-chip>span:last-child{font-size:14px;overflow-wrap:normal;word-break:normal}
 .hc-chips{grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr)}
 @media (max-width:560px){.hc-chips{grid-template-columns:1fr}}
+
+/* ---------- medicine hero: mechanism-of-action animation ---------- */
+.hero-media canvas.moa{position:absolute;inset:0;width:100%;height:100%;display:block}
+.moa-cap{position:absolute;z-index:3;right:clamp(20px,3vw,44px);top:clamp(96px,9vw,118px);width:min(270px,30vw);padding:16px 18px;border-radius:18px;background:rgba(4,22,28,.45);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#fff}
+.moa-k{display:block;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:10px}
+.moa-k i{font-style:normal;font-weight:400;text-transform:none;letter-spacing:0;color:rgba(255,255,255,.5)}
+.moa-steps{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.moa-steps li{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.4;color:rgba(255,255,255,.5);transition:color .4s}
+.moa-steps li b{flex:0 0 20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:11px;background:rgba(255,255,255,.1);transition:background .4s,color .4s}
+.moa-steps li.on{color:#fff}
+.moa-steps li.on b{background:var(--green);color:#0A3533}
+@media (max-width:860px){.moa-cap{display:none}}
