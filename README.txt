@@ -25,6 +25,9 @@ Where to edit things
   assets/css/style.css    Main styling (unchanged).
   assets/css/v4.css       Styling for the new parts (dropdown, divisions, globe, company, international, careers, assistant).
   assets/js/main.js       Animations, forms, FAQ.
+  assets/js/banners.js    Animated banners: Company (packing line + truck) and International (world map).
+                          The map countries match the home-page globe list.
+  assets/img/logo*.svg    Official logo, converted from the brand .ai file (logo / logo-white / logo-reverse, mark).
 
 Files still to add
   assets/img/events/cphi-1..3.jpg (iPHEX photos added)      (optional: assets/img/linkedin-banner.jpg)
@@ -33,5 +36,5 @@ Files still to add
 Before going live
   1. Forms open the visitor's email app addressed to contact@exonolpharma.com. Connect a form service or
      backend to store enquiries and accept CV uploads directly.
-  2. Add real LinkedIn / Facebook URLs in assets/js/layout.js, plus Terms and Privacy pages.
+  2. Add a real Facebook URL in assets/js/layout.js (LinkedIn is set), plus Terms and Privacy pages.
   3. The home-page globe loads d3 and the world map from cdn.jsdelivr.net.
